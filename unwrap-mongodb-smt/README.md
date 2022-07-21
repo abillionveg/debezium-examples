@@ -5,12 +5,12 @@ In order to convert the CDC events ebitted by Debezium's MongoDB connector into 
 
 We are using Docker Compose to deploy the following components:
 
-* MongoDB
-* Kafka
-  * ZooKeeper
-  * Kafka Broker
-  * Kafka Connect with the [Debezium CDC](https://debezium.io/) and [JDBC sink](https://github.com/confluentinc/kafka-connect-jdbc) connectors as well as the Postgres JDBC driver
-* PostgreSQL
+- MongoDB
+- Kafka
+  - ZooKeeper
+  - Kafka Broker
+  - Kafka Connect with the [Debezium CDC](https://debezium.io/) and [JDBC sink](https://github.com/confluentinc/kafka-connect-jdbc) connectors as well as the Postgres JDBC driver
+- PostgreSQL
 
 ## Preparations
 
@@ -26,13 +26,13 @@ docker-compose exec mongodb bash -c '/usr/local/bin/init-inventory.sh'
 # if using docker-machine:
 export CURRENT_HOST=$(docker-machine ip $(docker-machine active));
 # or any other host
-# export CURRENT_HOST='localhost' //or your host name 
+# export CURRENT_HOST='localhost' //or your host name
 
 # Start JDBC sink connector
-curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json" http://$CURRENT_HOST:8083/connectors/ -d @jdbc-sink.json
+curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json" http://localhost:8083/connectors/ -d @jdbc-sink.json
 
 # Start Debezium MongoDB CDC connector
-curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json" http://$CURRENT_HOST:8083/connectors/ -d @mongodb-source.json
+curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json" http://localhost:8083/connectors/ -d @mongodb-source.json
 ```
 
 ## Verify initial sync
@@ -135,7 +135,7 @@ db.customers.remove(
    {
     _id: NumberLong("1005")
    }
-);   
+);
 ```
 
 Verify that record in PostgreSQL is deleted:
